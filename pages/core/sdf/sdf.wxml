@@ -1,0 +1,68 @@
+<!--sdf.wxml-->
+<view class="container">
+    <include src="../../toast.wxml"/>
+    <view wx:if="{{remind}}" class="remind-box">
+        <image wx:if="{{remind == '加载中'}}" class="remind-img" src="/images/index/loading.gif"></image>
+        <block wx:else>
+            <image class="remind-img" src="/images/index/nothing.png"></image>
+            <text class="remind-text">{{remind}}</text>
+            <navigator open-type="redirect" wx:if="{{remind == '未完善寝室信息'}}" url="/pages/more/append" class="remind-btn">
+                前往完善
+            </navigator>
+            <navigator open-type="redirect" wx:if="{{show_bind_card_btn}}" url="/pages/more/append" class="remind-btn">
+                前往绑定
+            </navigator>
+        </block>
+    </view>
+
+    <!--result-page-->
+    <view wx:else class="result-page">
+        <!--result-userInfo-->
+        <view class="result-userInfo result-model">
+            <view class="userInfo-dormitory">
+                <text class="dormitory-info">{{renderData.room}}寝室</text>
+                <navigator open-type="redirect" url="/pages/more/append" class="dormitory-resetBtn">修改寝室</navigator>
+            </view>
+            <view class="userInfo-basic">
+                <text class="basic-name">{{renderData.building}}</text>
+                <text class="basic-time">截至时间：{{renderData.record_time}}</text>
+            </view>
+        </view>
+        <!--result-chargeInfo-->
+        <view class="result-chargeInfo">
+            <view class="chargeInfo-num chargeInfo-model result-model" style="margin-right:0">
+                <text class="chargeInfo-model-title">电费剩余</text>
+                <view class="chargeInfo-model-info">
+                    <text class="model-info">{{renderData.balance}}</text>
+                    元
+                </view>
+            </view>
+            <!--<view class="chargeInfo-cost chargeInfo-model result-model">
+                <text class="chargeInfo-model-title">预计可用</text>
+                <view class="chargeInfo-model-info">
+                    <text class="model-info">{{renderData.predict_day}}</text>
+                    天
+                </view>
+            </view>-->
+        </view>
+        <!--result-specificInfo-->
+
+        <view class="desc-list">
+            <text class="desc-list-item">电费充值请在电脑端登录 http://card.cqu.edu.cn 进行操作</text>
+        </view>
+
+        <!--<view class="result-specificInfo result-model">
+            <view class="specificInfo-item">
+                <text class="specificInfo-item-label">近十天用电</text>
+                <text class="specificInfo-item-value">{{renderData.recent10days}}</text>
+                <text>元</text>
+            </view>
+            <view class="specificInfo-item">
+                <text class="specificInfo-item-label">超过同寝室楼寝室</text>
+                <text class="specificInfo-item-value">{{renderData.over_scale}}</text>
+                <text>%</text>
+            </view>
+        </view>-->
+        <image class="sdf-bg" src="/images/core/sdf/sdf-bg.png"></image>
+    </view>
+</view>

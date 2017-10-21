@@ -1,0 +1,78 @@
+<!--more.wxml-->
+<view class="container">
+
+    <view class="user-info-box">
+        <block wx:if="{{is_bind}}">
+            <view class="user-info">
+                <view class="info-hd">
+                    <image class="user-avatar" src="{{avatarUrl}}"></image>
+                    <view class="user-title">
+                        <text class="user-name">{{user.name}}</text>
+                        <text class="user-id">{{user.id}}</text>
+                    </view>
+                    <view class="time-box">
+                        <text class="time-term">{{time.term}}</text>
+                        <text class="time-now">第{{time.week}}周 - 星期{{time.day}}</text>
+                    </view>
+                </view>
+                <view class="info-bd">
+                    <view class="info-bd-left">
+                        <!--<text class="user-text">性别：{{user.sex}}</text>-->
+                        <text class="user-text">学院：{{user.academy}}</text>
+                        <!--<text class="user-text">年级：{{user.grade}}级</text>-->
+
+                        <text class="user-text">班级：{{user.class}}</text>
+                    </view>
+                    <view class="info-bd-right">
+                        <!--<text class="user-text">学院：{{user.academy}}</text>-->
+                        <!--<text class="user-text">统一识别码：{{user.we.ykth}}</text>-->
+
+                        <!--<text class="user-text">专业：{{user.we.more.zym}}</text>-->
+                    </view>
+                </view>
+
+            </view>
+            <navigator url="append" class="append-link">
+                <view class="more-btn">
+                    <image class="btn-icon" src="/images/more/append.png"></image>
+                    <text class="btn-text">完善信息</text>
+                    <view class="btn-open">
+                        <image class="btn-enter" src="/images/more/enter.png"></image>
+                    </view>
+                </view>
+            </navigator>
+        </block>
+    </view>
+
+    <view class="more-list">
+        <navigator url="/pages/clear/clear" class="issue-link">
+            <view class="more-btn">
+                <image class="btn-icon" src="/images/more/delete.png"></image>
+                <text class="btn-text">数据清除</text>
+                <view class="btn-open">
+                    <image class="btn-enter" src="/images/more/enter.png"></image>
+                </view>
+            </view>
+        </navigator>
+
+        <navigator url="/pages/more/issues" class="issue-link">
+            <view class="more-btn">
+                <image class="btn-icon" src="/images/more/issue.png"></image>
+                <text class="btn-text">反馈</text>
+                <view class="btn-open">
+                    <image class="btn-enter" src="/images/more/enter.png"></image>
+                </view>
+            </view>
+        </navigator>
+        <navigator url="about" class="about-link">
+            <view class="more-btn">
+                <image class="btn-icon" src="/images/more/about.png"></image>
+                <text class="btn-text">关于</text>
+                <view class="btn-open">
+                    <image class="btn-enter" src="/images/more/enter.png"></image>
+                </view>
+            </view>
+        </navigator>
+    </view>
+
+</view>

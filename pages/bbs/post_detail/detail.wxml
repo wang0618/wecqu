@@ -1,0 +1,100 @@
+<view class="home_view">
+    <view class="card">
+        <view class="card-header">
+            <view class="avatar">
+                <image class="card-avatar" mode="scaleToFill" src="{{author_avatar?author_avatar:'/images/bbs/anonymous.png'}}"></image>
+            </view>
+            <view class="user flex-column" style="flex-grow:1">
+                <view class="name">{{author_nickname}}
+                    <span style="float: right;margin-right: 20px;font-weight:normal;font-size: 12px;color: #8999a5;">{{type}}</span>
+
+                </view>
+                <view class="time">{{created_at}}
+                </view>
+            </view>
+        </view>
+        <view class="card-content" style="padding-top: 3px;">
+            <view class="text" style="line-height: 1.4;">{{content}}
+            </view>
+        </view>
+    </view>
+</view>
+
+<view class="comments">
+    <view class="title"><span>解答</span></view>
+    <view class="list">
+        <block wx:for="{{teacher_reply}}" wx:key="this">
+            <view class="comment flex-row" wx:if="{{item[0]==0}}">
+                <image src="{{author_avatar}}" class="avatar"></image>
+                <view class="detail flex-rest-width">
+                    <view class="time"><span>{{item[2]}}</span></view>
+                    <view class="text"><span>{{item[1]}}</span></view>
+                </view>
+            </view>
+            <view class="comment flex-row" wx:else>
+                <view class="detail flex-rest-width">
+                    <view class="time"><span>{{item[2]}}</span></view>
+                    <view class="text"><span>{{item[1]}}</span></view>
+                </view>
+                <!--<image src="" class="avatar"></image>-->
+            </view>
+        </block>
+        <view class="comment flex-row" wx:if="{{!teacher_reply.length}}">
+            <view class="detail flex-rest-width">
+                暂无解答
+            </view>
+        </view>
+    </view>
+</view>
+<view class="btn-wapper" wx:if="{{author_mode}}">
+    <button type="default" plain="true"  bindtap="reply" id="requestion">追问</button>
+</view>
+
+<view class="comments margin_bottom">
+    <view class="title"><span>回复</span></view>
+    <view class="list">
+        <view class="comment flex-row" wx:for="{{replies}}" wx:key="this" wx:for-index="id">
+            <image src="{{item.head_img}}" class="avatar"></image>
+            <view class="detail flex-rest-width">
+                <view class="name"><span>{{item.nick}}</span></view>
+                <view class="time"><span>#{{id+1}} {{item.time}}</span></view>
+                <view class="text"><span>{{item.content}}</span></view>
+            </view>
+        </view>
+        <view class="comment flex-row" wx:if="{{!replies.length}}">
+            <view class="detail flex-rest-width">
+                暂无回复
+            </view>
+        </view>
+    </view>
+</view>
+
+
+<view class="reply_btn" bindtap="reply" id="reply">
+    <image src="/images/bbs/msg.png" class="msg_img"></image>
+    回 复
+</view>
+
+<view id="reply" class="weui-popup__container popup-bottom {{show_model?'.weui-popup__container--visible':''}}"
+      style="display:{{display}};">
+    <view class="weui-popup__overlay"></view>
+    <view class="weui-popup__modal">
+        <form bindsubmit="submit">
+            <view class="toolbar">
+                <view class="toolbar-inner">
+                    <text class="picker-button close-popup" bindtap="close_model">关闭</text>
+                    <view class="title">回复</view>
+                </view>
+            </view>
+            <view class="modal-content">
+                <textarea placeholder="请文明发言" rows="3" name="content" fixed></textarea>
+                <view style="margin: 10px 30px 10px 30px;">
+                    <button type="primary" plain="true" style="line-height: 2.0;font-size: 16px;" form-type="submit">
+                        提交
+                    </button>
+                </view>
+            </view>
+        </form>
+    </view>
+</view>
+

@@ -1,0 +1,98 @@
+@import "../app.wxss";
+@import "../card.wxss";
+
+.timeline{
+  height: 100%;
+}
+.index_menu{
+
+  height: 35px;
+  background-color:#fafafa;
+}
+.index_menu text{
+  font-size: 14px!important;
+}
+
+.menu-img{
+  width: 40rpx;
+  height: 40rpx;
+  margin-right: 15rpx;
+}
+
+.card-avatar {
+  width:80rpx;
+  height:80rpx;
+  border-radius:8rpx;
+  margin-right:12rpx;
+  margin-top: 18rpx;
+}
+
+
+.center_msg{
+  margin-top: 400rpx;
+  font-size: 25px;
+  color: #7e7e83;
+  text-align: center;
+}
+
+.help_btn{
+  flex: 0.5;
+}
+.help_btn:active{
+  background-color: #ededed;
+}
+
+/**********model*************/
+.help {
+  position: fixed;
+  z-index: 100;
+  top: 200rpx;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.box {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 600rpx;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 50px rgba(22,22,22,.35);
+  transform: translate3d(0,-400rpx,0);
+}
+.box-hd {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100rpx;
+  border-bottom: 1px solid #eee;
+}
+.box-title {
+  font-size: 13pt;
+}
+.box-close {
+  position: absolute;
+  right: 20rpx;
+  width: 35rpx;
+  height: 35rpx;
+  padding: 15rpx;
+}
+
+.box-bd {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /*height: 100rpx;*/
+  padding: 15rpx 25rpx 40rpx 25rpx;
+}
+
+.box-bd textarea{
+  height: 100rpx;
+  width: 550rpx;
+}

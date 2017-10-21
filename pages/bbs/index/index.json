@@ -1,0 +1,8 @@
+{
+  "enablePullDownRefresh": true,
+  "backgroundTextStyle": "light",
+  "navigationBarBackgroundColor": "#9f8bea",
+  "backgroundColor":"#9f8bea",
+  "navigationBarTextStyle": "white",
+  "navigationBarTitleText": "权益维护"
+}

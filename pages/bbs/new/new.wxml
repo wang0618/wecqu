@@ -1,0 +1,50 @@
+<view class="page" xmlns:wx="http://www.w3.org/1999/xhtml">
+    <form bindsubmit="submit">
+
+        <view class="container">
+            <view class="weui-cells__title">咨询类别</view>
+            <view class="weui-cells weui-cells_after-title">
+                <view class="weui-cell weui-cell_select">
+                    <view class="weui-cell__bd">
+                        <picker bindchange="bindAccountChange" value="{{accountIndex}}" range="{{accounts}}"
+                                name="post_type">
+                            <view class="weui-select">{{accounts[accountIndex]}}</view>
+                        </picker>
+                    </view>
+                </view>
+            </view>
+            <view class="weui-cells__title">内容</view>
+
+            <view class="issues-panel">
+                <view class="issues-input">
+                    <input placeholder="请输入标题" name="title"/>
+                </view>
+                <textarea class="issues-textarea" cursor-spacing="50"
+                          placeholder="请输入内容" name="content"></textarea>
+            </view>
+            <view class="weui-cells__title" style="margin-top: 10px">隐私</view>
+            <view class="weui-cells weui-cells_after-title">
+                <view class="weui-cell weui-cell_select">
+                    <view class="weui-cell__bd">
+                        <picker value="{{privateIndex}}" range="{{private}}" name="private_status"
+                                bindchange="bindPrivateChange">
+                            <view class="weui-select">{{private[privateIndex]}}</view>
+                        </picker>
+                    </view>
+                </view>
+            </view>
+            <view class="issue-msg" style="margin-top: -20px">
+                <text class="issues-remind">
+                    公开发表:您发布的反馈和您的账号将会被公开展示
+                    匿名发表:您发布的反馈会被公开展示但会隐藏您的账号信息
+                    非公开:您发布的咨询不会被公开展示，只有您自己可见
+                </text>
+            </view>
+
+            <view class="submit-btn">
+                <button class="weui-btn" type="primary" form-type="submit">提交</button>
+            </view>
+
+        </view>
+    </form>
+</view>

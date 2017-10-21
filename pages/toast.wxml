@@ -1,0 +1,3 @@
+<view class="fix_tip {{show_toast?'active':''}}">
+    <text>{{toast_text}}</text>
+</view>

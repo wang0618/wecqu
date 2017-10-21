@@ -1,0 +1,24 @@
+@import "../../more/issues.wxss";
+@import "../../../style/weui.wxss";
+
+.issues-input {
+    padding: 15 rpx 25 rpx;
+    padding-left: 15px;
+}
+
+.issues-textarea {
+    padding-left: 15px;
+}
+
+.issues-remind {
+    padding: 0;
+    padding-top: 30 rpx;
+}
+
+button[type="primary"] {
+    color: #FFFFFF;
+    background-color: #9f8bea;
+}
+button[type="primary"]:active{
+    background-color: #8b78cc;
+}

@@ -1,0 +1,38 @@
+<view class="content">
+    <view class="index">
+        <view class="index_head"></view>
+        <view  wx:for="{{timetable}}">
+            {{index+1}}
+        </view>
+    </view>
+    <scroll-view scroll-x class="time_data">
+        <view class="row row_head">
+            <view class="td">A区后门</view>
+            <view class="td">A区大门</view>
+            <view class="td">B区主席像</view>
+            <view class="td">C区大门</view>
+            <view class="td">虎溪校区</view>
+            <view class="td">虎溪花园南</view>
+            <view class="td">虎溪花园北</view>
+        </view>
+        <view class="row"  wx:for="{{timetable}}">
+            <block wx:if="{{item.active}}">
+                <view class="td active" wx:for="{{item.data}}">{{item}}</view>
+            </block>
+            <block wx:else>
+                <view class="td" wx:for="{{item.data}}">{{item}}</view>
+            </block>
+        </view>
+    </scroll-view>
+</view>
+
+<view wx:if="{{msg}}" class="weui-article">
+    <view class="weui-article__section">
+        <view class="weui-article__title">备注</view>
+        <view class="weui-article__section">
+            <view class="weui-article__p" wx:for="{{msg}}">
+                {{item}}
+            </view>
+        </view>
+    </view>
+</view>

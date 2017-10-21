@@ -1,0 +1,28 @@
+@import '../../style/weui.wxss';
+
+.weui-agree__link {
+  font-size: 13px;
+}
+
+.weui-btn-area {
+  margin: 1.17647059em 25px 2em;
+}
+
+.dupicker {
+  width: 300 rpx;
+}
+
+.weui-cell__bd .me-label {
+  height: 2.58823529em;
+  min-height: 2.58823529em;
+  line-height: 2.58823529em;
+  width: 240px;
+}
+
+.toptips {
+  background-color: #4cd964;
+}
+
+.page {
+  background-color: white;
+}

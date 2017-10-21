@@ -1,0 +1,52 @@
+<!--detail.wxml (common)-->
+<view class="container">
+    <include src="../toast.wxml"/>
+    <view wx:if="{{remind}}" class="remind-box">
+        <image wx:if="{{remind == '加载中'}}" class="remind-img" src="/images/index/loading.gif"></image>
+        <block wx:else>
+            <image class="remind-img" src="/images/index/nothing.png"></image>
+            <text class="remind-text">{{remind}}</text>
+        </block>
+    </view>
+    <block wx:else>
+        <view class="title">
+            <text>{{title}}</text>
+        </view>
+        <view class="info">
+            <text wx:if="{{date}}">发布时间：{{date}}</text>
+            <text class="file-source" bindtap="show_model">原文链接</text>
+        </view>
+        <text class="detail">{{content}}</text>
+        <swiper class="files_list" wx:if="{{files_len}}" indicator-dots="{{files_len !== 1}}"
+                autoplay="{{!file_loading}}">
+            <swiper-item wx:for="{{files_list}}" wx:key="fjid">
+                <view class="file">
+                    <image src="/images/news/file.png" class="file-img"></image>
+                    <view class="fileNameSource">
+                        <text class="file-name">{{item[0]}}</text>
+
+                    </view>
+                    <view class="file-remind">
+                        <image wx:if="{{file_loading}}" src="/images/index/loading.gif"></image>
+                        <text wx:else data-preview="{{item[2]}}" data-url="{{item[1]}}" bindtap="getFj">{{item[2] ?
+                            '点击预览' : '无法预览'}}
+                        </text>
+                    </view>
+                </view>
+            </swiper-item>
+        </swiper>
+
+        <view class="help" id="model" wx:if="{{model_status}}" bindtap="tap_model">
+            <view class="box">
+                <view class="box-hd">
+                    <text class="box-title">原文链接</text>
+                    <image class="box-close" src="/images/more/close.png" bindtap="hide_model"></image>
+                </view>
+                <view class="box-bd">
+                    <textarea value="{{url}}" fixed/>
+                </view>
+            </view>
+        </view>
+
+    </block>
+</view>

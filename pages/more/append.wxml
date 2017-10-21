@@ -1,0 +1,150 @@
+<view class="page" xmlns:wx="http://www.w3.org/1999/xhtml">
+    <view class="page__bd">
+        <view class="weui-toptips toptips" wx:if="{{showTopTips}}">{{showTopTips}}</view>
+
+        <view class="weui-cells__title">基本信息</view>
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell weui-cell_input">
+                <view class="weui-cell__hd">
+                    <view class="weui-label">姓名</view>
+                </view>
+                <view class="weui-cell__bd">
+                    <view class="weui-label me-label">{{baseinfo.name}}</view>
+                </view>
+            </view>
+            <view class="weui-cell weui-cell_input">
+                <view class="weui-cell__hd">
+                    <view class="weui-label">学院</view>
+                </view>
+                <view class="weui-cell__bd">
+                    <view class="weui-label me-label">{{baseinfo.academy}}</view>
+                </view>
+            </view>
+            <view class="weui-cell weui-cell_input">
+                <view class="weui-cell__hd">
+                    <view class="weui-label">班级</view>
+                </view>
+                <view class="weui-cell__bd">
+                    <view class="weui-label me-label">{{baseinfo.class}}</view>
+                </view>
+            </view>
+            <view class="weui-cell weui-cell_input">
+                <view class="weui-cell__hd">
+                    <view class="weui-label">年级</view>
+                </view>
+                <view class="weui-cell__bd">
+                    <view class="weui-label me-label">{{baseinfo.grade}}</view>
+                </view>
+            </view>
+        </view>
+        <view class="weui-cells__tips">以下信息均为选填</view>
+
+        <view class="weui-cells__title">校区、寝室 (用于显示课表作息时间和查询寝室电费)</view>
+        <form bindsubmit="dormitorySubmit">
+            <view class="weui-cells weui-cells_after-title">
+
+                <view class="weui-cell weui-cell_select">
+                    <view class="weui-cell__hd dupicker">
+                        <picker bindchange="bindCampusChange" value="{{campusIndex}}" range="{{campusRange}}"
+                                name="campus">
+                            <view class="weui-select">{{campusRange[campusIndex]}}</view>
+                        </picker>
+                    </view>
+                    <view class="weui-cell__bd weui-cell__bd_in-select-before">
+                        <picker bindchange="bindBuildingChange" value="{{buildingIndex}}" range="{{buildingRange}}"
+                                name="building">
+                            <view class="weui-select weui-select_in-select-after">{{buildingRange[buildingIndex]}}
+                            </view>
+                        </picker>
+                    </view>
+                </view>
+
+                <view class="weui-cell weui-cell_input">
+                    <view class="weui-cell__hd">
+                        <view class="weui-label">寝室号码</view>
+                    </view>
+                    <view class="weui-cell__bd">
+                        <input class="weui-input" type="text" name="room" value="{{roomNum}}"/>
+                    </view>
+                </view>
+
+            </view>
+            <view class="weui-cells__tips">虎溪梅园竹园兰园暂不支持电费查询，负楼层请使用'-'表示</view>
+            <view class="weui-cells__tips">另:A区12舍的同学需要在寝室号码前面加上您的单元号,如 3112</view>
+
+            <view class="weui-btn-area">
+                <button class="weui-btn" type="primary" plain="true" formType="submit">保存校区寝室信息</button>
+            </view>
+        </form>
+
+
+        <view class="weui-cells__title">账号绑定
+            <!--<view class="weui-agree__link">《相关条款》</view>-->
+        </view>
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell weui-cell_input weui-cell_vcode">
+                <view class="weui-cell__hd">
+                    <view class="weui-label">教务处</view>
+                </view>
+                <view class="weui-cell__bd">
+                    <input id="_jwc" bindblur="save_input" bindinput="save_input" class="weui-input" placeholder="{{bind_status_text[bind_status.jwc]}}" disabled="{{bind_status.jwc!=2}}" password="true"/>
+                </view>
+                <view class="weui-cell__ft">
+                    <view id="jwc" class="weui-vcode-btn" bindtap="bind_account_tap">{{bind_btn_text[bind_status.jwc]}}</view>
+                </view>
+            </view>
+            <view class="weui-cell weui-cell_input weui-cell_vcode">
+                <view class="weui-cell__hd">
+                    <view class="weui-label">一卡通</view>
+                </view>
+                <view class="weui-cell__bd">
+                    <input id="_card" bindblur="save_input" bindinput="save_input" class="weui-input" placeholder="{{bind_status_text[bind_status.card]}}" disabled="{{bind_status.card!=2}}" password="true"/>
+                </view>
+                <view class="weui-cell__ft">
+                    <view id="card" class="weui-vcode-btn" bindtap="bind_account_tap">{{bind_btn_text[bind_status.card]}}</view>
+                </view>
+            </view>
+            <view class="weui-cell weui-cell_input weui-cell_vcode">
+                <view class="weui-cell__hd">
+                    <view class="weui-label">图书馆</view>
+                </view>
+                <view class="weui-cell__bd">
+                    <input id="_library" bindblur="save_input" bindinput="save_input" class="weui-input" placeholder="{{bind_status_text[bind_status.library]}}" disabled="{{bind_status.library!=2}}" password="true"/>
+                </view>
+                <view class="weui-cell__ft">
+                    <view id="library" class="weui-vcode-btn" bindtap="bind_account_tap">{{bind_btn_text[bind_status.library]}}</view>
+                </view>
+            </view>
+            <navigator class="weui-cell weui-cell_link" url="/pages/clear/clear">
+                <view class="weui-cell__bd">解绑账号</view>
+            </navigator>
+        </view>
+
+        <view class="weui-cells__tips">一卡通账号默认密码为身份证号后六位，图书馆账号默认密码为学号。</view>
+
+        <view class="weui-article">
+            <view class="weui-article__section">
+                <view class="weui-article__title">密码保存策略</view>
+                <view class="weui-article__section">
+                    <view class="weui-article__p">
+                        我们将运用各种安全技术和程序建立完善的管理制度来保护您的账号信息，以免遭受未经授权的访问、使用或披露。
+                    </view>
+                    <view class="weui-article__p">
+                        我们不会将您的账号信息转移或披露给任何非关联的第三方。
+                    </view>
+                </view>
+                <!--<view class="weui-article__section">-->
+                <!--<view class="weui-article__h3">1.2 节标题</view>-->
+                <!--<view class="weui-article__p">-->
+                <!--Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod-->
+                <!--tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,-->
+                <!--cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non-->
+                <!--proident, sunt in culpa qui officia deserunt mollit anim id est laborum.-->
+                <!--</view>-->
+                <!--</view>-->
+            </view>
+        </view>
+
+
+    </view>
+</view>

@@ -1,0 +1,66 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/news/news",
+    "pages/news/detail",
+    "pages/more/login",
+    "pages/more/append",
+    "pages/clear/clear",
+    "pages/more/more",
+    "pages/more/issues",
+    "pages/more/about",
+    "pages/core/kb/kb",
+    "pages/core/bus/bus",
+    "pages/core/jy/jy",
+    "pages/core/ykt/ykt",
+    "pages/core/sdf/sdf",
+    "pages/core/cj/cj",
+    "pages/core/ks/ks",
+    "pages/core/kjs/kjs",
+    "pages/core/xf/xf",
+
+    "pages/bbs/contacts/contacts",
+    "pages/bbs/index/index",
+    "pages/bbs/new/new",
+    "pages/bbs/post_detail/detail"
+
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#7acfa6",
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "We重大",
+    "backgroundColor": "#7acfa6",
+    "backgroundTextStyle": "light",
+    "enablePullDownRefresh": false
+  },
+  "tabBar": {
+    "color": "#7f848a",
+    "selectedColor": "#7acfa6",
+    "backgroundColor": "#f7f6fb",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "images/index/index.png",
+        "selectedIconPath": "images/index/index@active.png"
+      },
+      {
+        "pagePath": "pages/news/news",
+        "text": "资讯",
+        "iconPath": "images/index/news.png",
+        "selectedIconPath": "images/index/news@active.png"
+      },
+      {
+        "pagePath": "pages/more/more",
+        "text": "更多",
+        "iconPath": "images/index/more.png",
+        "selectedIconPath": "images/index/more@active.png"
+      }
+    ]
+  },
+  "networkTimeout": {
+    "request": 10000,
+    "uploadFile": 30000,
+    "downloadFile": 30000
+  }
+}

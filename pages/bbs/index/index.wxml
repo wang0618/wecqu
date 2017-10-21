@@ -1,0 +1,69 @@
+<view class="fix_tip {{show_toast?'active':''}}">
+    <text>{{toast_text}}</text>
+</view>
+
+<view class="help" id="help" wx:if="{{model_status}}" bindtap="tapHelp">
+    <view class="box">
+        <view class="box-hd">
+            <text class="box-title">帮助</text>
+            <image class="box-close" src="/images/more/close.png" bindtap="hide_model"></image>
+        </view>
+        <view class="box-bd">
+            <view class="help-a">
+                <text>如果您觉得您在校的权益收到了侵害或者对学校的某些方面有各种意见或想法，欢迎在这里进行反馈，
+                    我们会将您的反馈信息反馈给学校相关部门，同时将学校的回复通知给您</text>
+            </view>
+        </view>
+    </view>
+</view>
+
+<view scroll-y="true" bindscrolltolower="scrollToLower" class="timeline">
+    <view class="tweet-container" >
+        <view class="flex-row index_menu">
+            <navigator class="bottom-tool flex-row flex-rest-width" url="/pages/bbs/new/new">
+                <image class="menu-img" src="/images/bbs/new.png"></image>
+                <text class="bottom-tool-text">发布咨询</text>
+            </navigator>
+            <navigator class="bottom-tool flex-row flex-rest-width" url="/pages/bbs/contacts/contacts">
+                <image class="menu-img" src="/images/bbs/history.png"></image>
+                <text class="bottom-tool-text">我的咨询</text>
+            </navigator>
+            <view class="bottom-tool flex-row flex-rest-width help_btn" style="flex: 0.5">
+                <text class="bottom-tool-text" bindtap="show_model">帮助</text>
+            </view>
+        </view>
+    </view>
+
+    <navigator url="/pages/bbs/post_detail/detail?id={{item.id}}&name={{item.title}}" class="tweet-container" wx:for="{{timeline}}" wx:key="id">
+        <view class="top-container flex-row">
+            <image class="card-avatar" src="{{item.avatar}}"></image>
+            <view class="user-container">
+                <text class="card-name">{{item.nickname}}</text>
+                <text class="card-time">#{{item.id}} {{item.created_at}}</text>
+            </view>
+        </view>
+        <view class="middle-container flex-column">
+            <text class="message-text">{{item.title}}</text>
+            <image class="message-image"
+                   data-original-pic="{{item.original_pic}}"
+                   wx:if="{{item.original_pic}}"
+                   src="{{item.original_pic}}"
+                   mode="aspectFill"
+                   catchtap="previewImage"
+            ></image>
+        </view>
+        <view class="bottom-container flex-row">
+            <view class="bottom-tool flex-row flex-rest-width">
+                <text class="bottom-tool-text">{{item.type}}</text>
+            </view>
+            <view class="bottom-tool flex-row flex-rest-width">
+                <text class="bottom-tool-text">{{item.comment_count}} 评论</text>
+            </view>
+        </view>
+    </navigator>
+
+    <view class="center_msg" wx:if="{{!timeline.length}}">
+        <text class="remind-text">暂无内容 {{'>_<'}} </text>
+    </view>
+
+</view>

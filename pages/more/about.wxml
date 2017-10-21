@@ -1,0 +1,113 @@
+<!--about.wxml-->
+<view class="container">
+    <view class="header">
+        <view class="black-cover"></view>
+        <image class="logo" src="/images/more/logo.png"></image>
+        <image class="title" src="/images/more/title.png"></image>
+    </view>
+    <view class="content">
+        <view class="version">
+            <view class="version-title">
+                <text class="title-name">We重大</text>
+                <text class="version-text">{{version}}</text>
+                <!--<text class="version-text">公测</text>-->
+            </view>
+            <view bindtap="toggleLog">
+                <text class="version-log-link update-log" wx:if="{{!showLog}}">更新日志</text>
+                <text class="version-log-link" wx:else>简介</text>
+            </view>
+        </view>
+        <view class="describe" wx:if="{{!showLog}}">
+            <text class="desc-title">简介</text>
+            <!--<text class="desc-content">We重大是一款微信小程序，是碎片化、一站式、一体化校园移动门户，适用于全体重大学生，集课表、一卡通、借阅、电费、校车、通知公告等功能于一身。-->
+            <!--</text>-->
+            <text class="desc-content">We重大是一款微信小程序，由重庆大学团委指导，学生技术团队开发。
+            </text>
+            <text class="desc-content">We重大是碎片化、一站式、一体化校园移动门户，适用于全体重大学生，集课表、一卡通、借阅、空教室、电费、校车、通知公告等功能于一身。
+            </text>
+            <text class="desc-content">接下来会陆续加入成绩、考试、学费查询等功能。同时也将开源项目的前端代码。</text>
+            <view class="desc-list">
+                <text class="desc-list-item">We重大的诞生离不开“We重邮”开源项目，We重大的前端代码就是在“We重邮”项目的基础上开发的。</text>
+                <text class="desc-list-item">We重邮官网：http://we.cqupt.edu.cn</text>
+                <text class="desc-list-item">Github：https://github.com/lanshan-studio/wecqupt</text>
+            </view>
+        </view>
+        <view class="log-list" wx:else>
+            <view class="describe">
+                <view class="desc-title">
+                    <text class="desc-v">v1.5</text>
+                    <text class="desc-time">2017.10.20</text>
+                </view>
+                <text class="desc-content">添加功能</text>
+                <view class="desc-list">
+                    <text class="desc-list-item">学生权益维护栏目</text>
+                </view>
+                <text class="desc-content">优化完善</text>
+                <view class="desc-list">
+                    <text class="desc-list-item">修复未绑定账号退出绑定界面后主页无限加载的缺陷</text>
+                    <text class="desc-list-item">咨询详情界面点击链接自动复制到剪切板</text>
+                    <text class="desc-list-item">关于页面可以看到当前使用人数了</text>
+                </view>
+            </view>
+            <view class="describe">
+                <view class="desc-title">
+                    <text class="desc-v">v1.4</text>
+                    <text class="desc-time">2017.10.10</text>
+                </view>
+                <text class="desc-content">添加功能</text>
+                <view class="desc-list">
+                    <text class="desc-list-item">空教室查询</text>
+                </view>
+                <text class="desc-content">优化完善</text>
+                <view class="desc-list">
+                    <text class="desc-list-item">修复完善信息时，正确输入账号后提示密码不正确的bug</text>
+                    <text class="desc-list-item">修改部分容易误导用户的提示</text>
+                </view>
+            </view>
+            <view class="describe">
+                <view class="desc-title">
+                    <text class="desc-v">v1.3</text>
+                    <text class="desc-time">2017.10.02</text>
+                </view>
+                <text class="desc-content">添加功能</text>
+                <view class="desc-list">
+                    <text class="desc-list-item">反馈页面加入联系方式输入框</text>
+                </view>
+                <text class="desc-content">优化完善</text>
+                <view class="desc-list">
+                    <text class="desc-list-item">修复加载提示无故消失bug</text>
+                    <text class="desc-list-item">优化请求错误时的处理逻辑</text>
+                </view>
+            </view>
+            <view class="describe">
+                <view class="desc-title">
+                    <text class="desc-v">v1.2</text>
+                    <text class="desc-time">2017.09.26</text>
+                </view>
+                <!--<text class="desc-content">添加功能</text>
+                <view class="desc-list">
+                    <text class="desc-list-item">咨询栏目</text>
+                </view>-->
+                <text class="desc-content">优化完善</text>
+                <view class="desc-list">
+                    <text class="desc-list-item">优化显示界面</text>
+                </view>
+            </view>
+            <view class="describe">
+                <view class="desc-title">
+                    <text class="desc-v">v1.0 公测版</text>
+                    <text class="desc-time">2017.09.18</text>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="footer">
+        <view class="footer-lanshan">
+            <text>指导单位 共青团重庆大学委员会</text>
+            <image src="/images/more/ysh.png"></image>
+        </view>
+        <text>已有{{user_count}}位小伙伴在使用本小程序</text>
+        <!--<text>♥ Do have faith in what you're doing.</text>-->
+        <!--<text>Copyright @ {{year}} All Rights Reserved</text>-->
+    </view>
+</view>

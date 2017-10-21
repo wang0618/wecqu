@@ -1,0 +1,47 @@
+<view class="page">
+    <include src="../toast.wxml"/>
+    <view class="page__bd">
+        <view class="weui-tab">
+            <view class="weui-navbar">
+                <block wx:for="{{tabs}}" wx:key="*this">
+                    <view id="{{index}}" class="weui-navbar__item {{activeIndex == index ? 'weui-bar__item_on' : ''}}"
+                          bindtap="tabClick">
+                        <view class="weui-navbar__title">{{item.name}}</view>
+                    </view>
+                </block>
+                <view class="weui-navbar__slider"
+                      style="left: {{sliderLeft}}px; transform: translateX({{sliderOffset}}px); -webkit-transform: translateX({{sliderOffset}}px);"></view>
+            </view>
+            <view class="weui-tab__panel">
+                <view class="content">
+                    <block wx:for="{{current.data}}" wx:key="item.id">
+                        <navigator url="/pages/news/detail?type={{item.category}}&id={{item.id}}">
+                            <view class="list-item {{tabs[item.category].type}}">
+                                <view class="list-item-left">
+                                    <text class="list-item-title">{{item.title}}</text>
+                                    <view class="list-item-info">
+                                        <text>{{item.date}}</text>
+                                        <text>{{tabs[item.category].name}}</text>
+                                    </view>
+                                </view>
+                                <!--<image class="list-item-icon" src="/images/news/{{item.type}}.png"></image>-->
+                            </view>
+                        </navigator>
+                    </block>
+                    <!--提醒消息-->
+                    <view class="loader" wx:if="{{loading}}">
+                        <image src="/images/index/loading.gif"></image>
+                    </view>
+                    <view wx:else  class="content-ending">
+                        <text>{{current.remind}}</text>
+                    </view>
+                </view>
+
+            </view>
+        </view>
+    </view>
+    <!--悬浮消息-->
+    <view class="fix_tip {{show_toast?'active':''}}">
+        <text>{{toast_text}}</text>
+    </view>
+</view>

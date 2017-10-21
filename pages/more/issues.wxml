@@ -1,0 +1,24 @@
+<!--issues.wxml-->
+<view class="container">
+    <text class="issues-label">反馈</text>
+    <form bindsubmit="submit">
+        <view class="issues-panel">
+            <view class="issues-input">
+                <input placeholder="请输入反馈标题" name="title"/>
+            </view>
+            <view class="issues-input">
+                <input placeholder="联系方式, 选填, 方便我们与您联系" name="contact"/>
+            </view>
+            <textarea class="issues-textarea" cursor-spacing="50"
+                      placeholder="请输入反馈内容" name="content"></textarea>
+
+        </view>
+        <view class="issue-msg">
+            <text class="issues-remind">欢迎您加入用户反馈QQ群422912661进行即时反馈。
+            </text>
+        </view>
+        <view class="submit-btn">
+            <button class="weui-btn" type="primary" form-type="submit">提交</button>
+        </view>
+    </form>
+</view>
