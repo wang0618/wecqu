@@ -70,16 +70,16 @@
                     <!-- 每一列为一组 -->
                     <view class="kb-cards-column" wx:for="{{lessons}}" wx:key="{{day}}" wx:for-item="day_lesson" wx:for-index="day">
                         <!-- today 0周一,1周二 -->
-                        <block wx:if="{{(today===day) && (toweek == week)}}">
+                        <block wx:if="{{(today===day) && (toweek == week) && (!in_holiday)}}">
                             <view class="kb-bg" style="background:-webkit-gradient(linear,left top,left bottom,from(#eff7ff),color-stop({{(timelineTop+4)/1260}}, #8cc4ff),to(#eff7ff));"></view>
                             <view class="kb-timeline" style="display:block;top:{{timelineTop}}rpx"></view>
                         </block>
                         <!-- 循环当天的的6节课 -->
-                        <view class="kb-card {{wid%2==0?'mg-8':'mg-12'}}" wx:for="{{day_lesson}}" wx:key="{{wid}}" wx:for-index="wid">
+                        <view class="kb-card {{wid%2==0?'mg-8':'mg-12'}}" wx:for="{{day_lesson}}" wx:key="{{wid}}" wx:for-index="wid" data-day="{{day}}" data-wid="{{wid}}" catchtap="showDetail">
                             <!-- 循环重叠课 -->
                             <block wx:for="{{day_lesson[wid]}}" wx:key="{{cid}}" wx:for-item="cards" wx:for-index="cid">
                                 <!-- 循环周数，与当前周相同或当前周为*时显示 -->
-                                <view style="height:{{cards.number==2?cards.number*100:cards.number*100+9}}rpx" data-day="{{day}}" data-wid="{{wid}}" data-cid="{{cid}}" bindtap="showDetail" wx:for="{{cards.weeks}}" wx:key="*this" wx:for-item="iweek" class="mg-8 kb-card-content {{cards.conflictWeeks[iweek] || (week == '*' && cards.klen > 1) ?'k-sec':''}} {{iweek==week || week == '*' ?cards.color:''}}" wx:if="{{iweek==week || week == '*'}}">
+                                <view style="height:{{cards.number==2?cards.number*100:cards.number*100+9}}rpx" data-day="{{day}}" data-wid="{{wid}}" data-cid="{{cid}}" catchtap="showDetail" wx:for="{{cards.weeks}}" wx:key="*this" wx:for-item="iweek" class="mg-8 kb-card-content {{cards.conflictWeeks[iweek] || (week == '*' && cards.klen > 1) ?'k-sec':''}} {{iweek==week || week == '*' ?cards.color:''}}" wx:if="{{iweek==week || week == '*'}}">
                                     <!-- 判断上课地点是数字还是汉字 -->
                                     <text wx:if="{{cards.place < '99999'}}" class="kb-card-place-num">{{cards.place}}</text>
                                     <text wx:else class="kb-card-place-words">{{cards.place}}</text>
@@ -134,7 +134,7 @@
                     </view>
                 </block>
                 <block wx:else>
-                    <text class="kb-info-week">{{toweek}}周周{{_days[today]}}</text>
+                    <text class="kb-info-week" bindtap="update_classtable">更新</text>
                     <text class="kb-term">{{term}}</text>
                 </block>
                 <!--切换视图-->

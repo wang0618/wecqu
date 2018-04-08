@@ -18,7 +18,16 @@ Page({
     },
     bind_status: 0, //0 未知,1 已绑定,2 未绑定
     onLoad: function () {
-        this.getData();
+        var _this = this;
+        app.loginLoad(function () {
+            _this.getData.call(_this);
+        }, function () {
+            wx.showModal({
+                title: '错误',
+                content: '网络连接出错',
+                showCancel: false
+            });
+        });
     },
     onPullDownRefresh: function () {
         this.getData();
@@ -105,17 +114,15 @@ Page({
         wx.request({
             url: app._server + app.api.get_library_info,
             method: 'POST',
-            data: app.key({}),
+            data: app.key({'refresh': true}),
             success: function (res) {
                 if (res.data && res.data.status === 200) {
                     var info = res.data.data;
                     if (info) {
-                        if (!app.cache.library) {
-                            //用户返回主页时重新渲染借阅信息
-                            app.index_show_callback.push(['render_library', function (that) {
-                                that.libraryRender(app.cache.library);
-                            }]);
-                        }
+                        //用户返回主页时重新渲染借阅信息
+                        app.index_show_callback.push(['render_library', function (that) {
+                            that.libraryRender(app.cache.library);
+                        }]);
                         //保存借阅缓存
                         app.saveCache('library', info);
                         jyListRender(info);

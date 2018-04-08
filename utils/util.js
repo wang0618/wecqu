@@ -13,6 +13,7 @@ function formatTime(date, t) {
         return [year, month, day].map(formatNumber).join('-') + ' ' + [hour, minute, second].map(formatNumber).join(':');
     }
 }
+
 function formatNumber(n) {
     n = n.toString();
     return n[1] ? n : '0' + n;
@@ -30,6 +31,7 @@ function isPlainObject(obj) {
     }
     return key === undefined || obj.hasOwnProperty(key);
 }
+
 function cloneObj(obj) {
     if (!isPlainObject(obj)) {
         return false;
@@ -43,12 +45,18 @@ var md5 = require('md5.min.js'), base64 = require('base64.min.js'),
         if (!isPlainObject(data)) {
             return false;
         }
+        var app = getApp();
+        data['v'] = app.version_id;
         var json_data = JSON.stringify(data);
         var timestamp = parseInt(new Date().getTime().toString().substr(0, 10));
-        var app = getApp();
+
+        var sign = '';
+        try {
+            sign = md5(json_data + timestamp + app.cache.session).substr(0, 10) + app.cache.user.id;
+        } catch (e) {}
         return {
             timestamp: timestamp,
-            sign: md5(json_data + timestamp + app.cache.session).substr(0, 10) + app.cache.user.id,
+            sign: sign,
             data: json_data
         };
     };
@@ -65,6 +73,7 @@ function get_week(start_stamp) {
     var now = parseInt(new Date().getTime().toString().substr(0, 10));
     var intval = (now - start_stamp) / 86400;
     return {
+        now:now,
         week: parseInt(intval / 7) + 1,
         day: parseInt(intval % 7)
     }
@@ -76,5 +85,5 @@ module.exports = {
     base64: base64,
     key: key,
     isEmptyObject: isEmptyObject,
-    get_week:get_week
+    get_week: get_week
 };

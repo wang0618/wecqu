@@ -1,10 +1,11 @@
 <!--kjs.wxml-->
 <view class="container">
+    <include src="../../toast.wxml"/>
     <!--显示空教室信息-->
     <scroll-view scroll-y class="main-roomUl" hidden="{{errObj.errorDisplay ? false : true}}"
                  style="height: {{scroll_area_height}}px">
         <!--楼层-->
-        <block wx:for="{{testData}}" wx:key="">
+        <block wx:for="{{testData.data}}" wx:key="">
             <view class="roomUl-floor">
                 <!--楼层的空教室-->
                 <view scroll-x class="floor">
@@ -14,6 +15,7 @@
                 </view>
             </view>
         </block>
+        <view class="updatetime">更新时间:{{testData.update_time}}</view>
     </scroll-view>
     <!--选择要查询的条件-->
     <view class="main-condition">
@@ -22,7 +24,7 @@
             <view class="scroll-space"></view>
             <block wx:for="{{DATA.CLASSTIME_DATA}}" wx:key="index">
                 <block wx:if="{{!!item}}">
-                    <view class="condition-li {{index == active.classNo ? 'classTime-active' : ''}}"
+                    <view class="condition-li {{item.active ? 'classTime-active' : ''}}"
                           data-classNo="{{index}}">{{item.time}}
                     </view>
                 </block>

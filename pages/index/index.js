@@ -21,21 +21,16 @@ Page({
         swiper_core: [
             [
                 {id: 'kb', name: '课表', url: "/pages/core/kb/kb", disabled: false, offline_disabled: false},
-
-                {id: 'kjs', name: '空教室', url: "/pages/core/kjs/kjs", disabled: false, offline_disabled: true},
-                {id: 'jy', name: '借阅信息', url: "/pages/core/jy/jy", disabled: false, offline_disabled: false},
-                {id: 'sdf', name: '寝室电费', url: "/pages/core/sdf/sdf", disabled: false, offline_disabled: false},
+                {id: 'kjs', name: '空教室', url: "/pages/core/kjs/kjs", disabled: false, offline_disabled: false},
+                {id: 'ks', name: '考试安排', url: "/pages/core/ks/ks", disabled: false, offline_disabled: false},
+                {id: 'cj', name: '考试成绩', url: "/pages/core/cj/cj", disabled: false, offline_disabled: false},
                 {id: 'bus', name: '校车时刻', url: "/pages/core/bus/bus", disabled: false, offline_disabled: false},
-
             ], [
                 {id: 'ykt', name: '一卡通', url: "/pages/core/ykt/ykt", disabled: false, offline_disabled: false},
-                {id: 'more', name: '权益维护', url: "/pages/bbs/index/index", disabled: false, offline_disabled: true},
-                // {id: 'sdf', name: '寝室电费', url: "/pages/core/sdf/sdf", disabled: false, offline_disabled: false},
-                {id: 'cj', name: '考试成绩', url: "/pages/core/cj/cj", disabled: true, offline_disabled: true},
-                {id: 'ks', name: '考试安排', url: "/pages/core/ks/ks", disabled: true, offline_disabled: true},
-
-                {id: 'xf', name: '学费信息', url: "/pages/core/xf/xf", disabled: true, offline_disabled: true},
-                // {id: 'more', name: 'more', url: "/pages/bbs/index/index", disabled: true, offline_disabled: true}
+                // {id: 'more', name: '权益维护', url: "/pages/bbs/index/index", disabled: false, offline_disabled: true},
+                {id: 'jy', name: '借阅信息', url: "/pages/core/jy/jy", disabled: false, offline_disabled: false},
+                {id: 'sdf', name: '寝室电费', url: "/pages/core/sdf/sdf", disabled: false, offline_disabled: false},
+                // {id: 'explore', name: '探索', url: "/pages/core/explore/explore", disabled: false, offline_disabled: true},
             ]
         ],
         card: {
@@ -122,7 +117,7 @@ Page({
         }
     },
     // 一个页面只会调用一次
-    onLoad: function () {
+    onLoad: function (options) {
         /*  页面逻辑
          *  页面加载之后，先将缓存的课表，一卡通，借阅，电费信息显示出来，
          *  调用app.authUser() 进行客户端session (app.cache.sign) 的更新，
@@ -130,10 +125,9 @@ Page({
          *  若用户未绑定账号，则app.authUser()会从重定向至绑定页面
          * */
         var _this = this;
-
-        if (app.launch_option.scene == 1035)
+        if (options.title)
             wx.setNavigationBarTitle({
-                title: '青年之声 We重大'
+                title: options.title + ' We重大'
             });
 
         _this.data.user['is_bind'] = app.util.isEmptyObject(_this.data.user) ? false : true;
@@ -224,7 +218,6 @@ Page({
             });
         }
 
-        // todo 每次上传本地缓存签名来判断是否需要更新数据
         if (!app.cache.class_table)
             cache_and_render(app.api.get_classtable, 'class_table', _this.kbRender);
         if (!request_ctrl)
@@ -257,6 +250,18 @@ Page({
         try {
             var _this = this;
             var week = app.util.get_week(info.start_stamp);
+            if (week.now < info.start_stamp || week.now > info.end_stamp) {
+                var msg = '假期中 Have Fun!!';
+                if (week.now < info.start_stamp) {
+                    msg = '假期中, ' + (parseInt((info.start_stamp - week.now) / (1440 * 60) + 1)) + '天后开学';
+                }
+                _this.setData({
+                    'card.kb.show': true,
+                    'card.kb.nothing_msg': msg,
+                    'remind': ''
+                });
+                return;
+            }
             var lessons = info.lessons[week.day], //day为0表示周一
                 list = [],
                 time_list = false;
@@ -282,7 +287,7 @@ Page({
             _this.setData({
                 'card.kb.data': list,
                 'card.kb.show': true,
-                'card.kb.nothing': !list.length,
+                'card.kb.nothing_msg': !list.length ? '今日无课' : null,
                 'remind': ''
             });
         } catch (e) {
@@ -300,7 +305,6 @@ Page({
     },
     eleFeeRender: function (info) {
         var _this = this;
-        console.log(info);
         _this.setData({
             'card.sdf.data.room': info.room,
             'card.sdf.data.record_time': info.record_time,
@@ -324,6 +328,8 @@ Page({
                 'card.jy.show': true,
                 'remind': ''
             });
+        } else { // 没有借阅图书
+            _this.setData({'card.jy.show': false});
         }
     }
 });

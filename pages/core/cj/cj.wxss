@@ -50,7 +50,7 @@
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
-    padding: 25rpx 30rpx;
+    padding: 25rpx 30rpx 0 30rpx;
 }
 .cj-grade-logo{
     width: 100rpx;
@@ -68,7 +68,14 @@
     display: flex;
     flex-flow: column nowrap;
 }
-
+.cj-credit{
+    display: flex;
+    padding: 20rpx 30rpx 0rpx 32rpx;
+}
+.cj-credit text{
+    flex-grow:1;
+    font-size: 11pt;
+}
 .grade-comment{
     color: #999;
     font-size: 26rpx;
@@ -91,5 +98,5 @@
     padding: 25rpx 10rpx 20rpx 5rpx;
 }
 .cj-info-socre{
-    padding-left: 100rpx;
+    min-width: 90rpx;
 }

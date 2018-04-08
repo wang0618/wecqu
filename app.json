@@ -9,15 +9,18 @@
     "pages/more/more",
     "pages/more/issues",
     "pages/more/about",
+
     "pages/core/kb/kb",
     "pages/core/bus/bus",
-    "pages/core/jy/jy",
-    "pages/core/ykt/ykt",
-    "pages/core/sdf/sdf",
-    "pages/core/cj/cj",
-    "pages/core/ks/ks",
     "pages/core/kjs/kjs",
-    "pages/core/xf/xf",
+    "pages/core/cj/cj",
+    "pages/core/sdf/sdf",
+    "pages/core/ykt/ykt",
+    "pages/core/jy/jy",
+    "pages/core/ks/ks",
+    "pages/core/test/test",
+
+
 
     "pages/bbs/contacts/contacts",
     "pages/bbs/index/index",

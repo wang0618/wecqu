@@ -12,7 +12,7 @@
                     </view>
                     <view class="time-box">
                         <text class="time-term">{{time.term}}</text>
-                        <text class="time-now">第{{time.week}}周 - 星期{{time.day}}</text>
+                        <text class="time-now">{{time.week_day}}</text>
                     </view>
                 </view>
                 <view class="info-bd">

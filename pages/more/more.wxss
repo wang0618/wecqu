@@ -40,7 +40,7 @@
 .time-box {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-end;
   font-size: 10pt;
   line-height: 140%;
   color: #aaa;

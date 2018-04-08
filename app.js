@@ -1,9 +1,20 @@
 //app.js
 
 App({
-    version: 'v1.5', //版本号
-    //can_read_cache_lowest_version: 0,// 能够兼容的程序最低缓存版本，供更新使用
-    launch_option:null,
+    version: 'v1.6.1', //版本号
+    version_id: 17,
+    launch_option: null,
+    on_upgrade_to_this:function () {
+        /*用户更新到此版本第一次打开时调用的函数*/
+        var _this = this;
+        wx.clearStorageSync();
+        _this.cache = {};
+    },
+    on_change_term:function (new_term) {
+        /*当后台学期更新时调用的函数*/
+        var _this = this;
+        _this.removeCache('class_table');
+    },
     onLaunch: function (options) {
         var _this = this;
         _this.launch_option = options;
@@ -18,9 +29,10 @@ App({
                     }
                 });
             }
-            if (_this.cache.cache_version && _this.cache.cache_version < _this.can_read_cache_lowest_version) {
-                wx.clearStorageSync();
-                _this.cache = {}
+
+            if (!_this.cache.version || (_this.cache.version != _this.version)) {
+                _this.on_upgrade_to_this();
+                _this.saveCache('version',_this.version);
             }
 
             if (!_this.cache.wx_info) {
@@ -34,8 +46,6 @@ App({
                     }
                 });
             }
-
-
         } catch (e) {
             console.warn('获取缓存失败');
         }
@@ -111,9 +121,13 @@ App({
                                     wx.navigateTo({url: '/pages/more/login'});
                                     return;
                                 }
+                                // 检测后台是否更新学期信息
+                                if(_this.cache.term && _this.cache.term.name!=data.term.name){
+                                    _this.on_change_term(data.term);
+                                }
                                 for (var key in data) {
                                     var value = data[key];
-                                    console.log(key, value);
+                                    // console.log(key, value);
                                     _this.saveCache(key, value);
                                 }
                                 typeof success == "function" && success(true);
@@ -178,17 +192,17 @@ App({
         });
     },
     showLoadToast: function (title, duration) {
-        if (duration){
+        if (duration) {
             wx.showToast({
                 title: title || '加载中',
                 icon: 'loading',
                 mask: true,
                 duration: duration || 10000
             });
-        }else{
+        } else {
             wx.showLoading({
-                title:title || '加载中',
-                mask:true
+                title: title || '加载中',
+                mask: true
             });
         }
     },
@@ -207,9 +221,9 @@ App({
     key: function (data) {
         return this.util.key(data)
     },
-    index_show_callback:[],// key,fun(this),回到主页时要调用的回调函数列表
+    index_show_callback: [],// key,fun(this),回到主页时要调用的回调函数列表
     cache: {},
-    _server: 'https://icqu.cquyibandev.com',
+    _server: 'https://wecqu.com',
     api: {
         get_classtable: '/api/classtable',
         get_cardcost: '/api/card',
@@ -220,14 +234,14 @@ App({
         clear_data: '/api/clear',
         feedback: '/api/feedback',
 
-        bbs_get_posts:"/api/bbs/post",
-        bbs_do_post:"/api/bbs/post",
-        bbs_reply_post:"/api/bbs/reply",
-        bbs_get_user_postslist:"/api/bbs/userpost",
-        bbs_post_status:"/api/bbs/poststatus",
+        bbs_get_posts: "/api/bbs/post",
+        bbs_do_post: "/api/bbs/post",
+        bbs_reply_post: "/api/bbs/reply",
+        bbs_get_user_postslist: "/api/bbs/userpost",
+        bbs_post_status: "/api/bbs/poststatus",
 
-        get_grade: '/api/get_kscj.php',
-        get_exam_info: '/api/get_ks.php',
+        get_grade: '/api/exam_score',
+        get_exam_info: '/api/exam',
         get_empty_room: '/api/get_empty_room.php',
     }
 });

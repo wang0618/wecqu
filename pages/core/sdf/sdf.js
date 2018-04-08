@@ -9,7 +9,19 @@ Page({
         show_bind_card_btn:false
     },
 
-    onLoad: function () {
+    onLoad:function () {
+        var _this = this;
+        app.loginLoad(function () {
+            _this.onLoadAfterLogin.call(_this);
+        }, function () {
+            wx.showModal({
+                title: '错误',
+                content: '网络连接出错',
+                showCancel: false
+            });
+        });
+    },
+    onLoadAfterLogin: function () {
         var _this = this;
         //判断并读取缓存
         if (app.cache.ele_fee) {
@@ -62,7 +74,7 @@ Page({
                             remind: res.data.message || '网络错误'
                         });
                     } else {
-                        app.toast(_this, '更新电费信息失败')
+                        app.toast(_this, '更新电费信息失败');
                     }
 
                 }

@@ -203,7 +203,7 @@
     z-index: 11;
     background: #eee;
     width: 120rpx;
-    min-height: 200rpx;
+    min-height: 100rpx;
     padding: 0 10rpx;
     text-align: center;
     box-sizing: border-box;
@@ -322,7 +322,7 @@
     border-top-right-radius: 15rpx;
     background: #73b4ef;
     font-size: 11pt;
-    transition: all .2s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: all .05s cubic-bezier(0.19, 1, 0.22, 1);
     transform: translate3d(0,400rpx,0);
 }
 .kb-info-ctn-open{

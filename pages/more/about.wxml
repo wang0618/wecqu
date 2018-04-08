@@ -19,28 +19,75 @@
         </view>
         <view class="describe" wx:if="{{!showLog}}">
             <text class="desc-title">简介</text>
-            <!--<text class="desc-content">We重大是一款微信小程序，是碎片化、一站式、一体化校园移动门户，适用于全体重大学生，集课表、一卡通、借阅、电费、校车、通知公告等功能于一身。-->
-            <!--</text>-->
-            <text class="desc-content">We重大是一款微信小程序，由重庆大学团委指导，学生技术团队开发。
+            <text class="desc-content">We重大是一款微信小程序，是碎片化、一站式、一体化校园移动门户，适用于全体重大学生，集课表、一卡通、借阅、电费、校车、通知公告等功能于一身。
+            </text>
+            <!--<text class="desc-content">We重大是一款微信小程序，由重庆大学团委指导，学生技术团队开发。
             </text>
             <text class="desc-content">We重大是碎片化、一站式、一体化校园移动门户，适用于全体重大学生，集课表、一卡通、借阅、空教室、电费、校车、通知公告等功能于一身。
-            </text>
+            </text>-->
             <text class="desc-content">接下来会陆续加入成绩、考试、学费查询等功能。同时也将开源项目的前端代码。</text>
             <view class="desc-list">
                 <text class="desc-list-item">We重大的诞生离不开“We重邮”开源项目，We重大的前端代码就是在“We重邮”项目的基础上开发的。</text>
-                <text class="desc-list-item">We重邮官网：http://we.cqupt.edu.cn</text>
+                <text class="descmeile list-item">We重邮官网：http://we.cqupt.edu.cn</text>
                 <text class="desc-list-item">Github：https://github.com/lanshan-studio/wecqupt</text>
             </view>
         </view>
         <view class="log-list" wx:else>
+            <!--新版本 后台 helpers/web.py:27 解注释-->
+            <!--<view class="describe">
+                <view class="desc-title">
+                    <text class="desc-v">v1.7</text>
+                    <text class="desc-time">2018.2.24</text>
+                </view>
+                <text class="desc-content">优化完善</text>
+                <view class="desc-list">
+                    <text class="desc-list-item">空教室查询支持多时段同时查询</text>
+                    <text class="desc-list-item">支持辅修成绩查询</text>
+                </view>
+            </view>-->
+            <view class="describe">
+                <view class="desc-title">
+                    <text class="desc-v">v1.6.1</text>
+                    <text class="desc-time">2018.1.12</text>
+                </view>
+                <text class="desc-content">优化完善</text>
+                <view class="desc-list">
+                    <text class="desc-list-item">空教室查询支持多时段同时查询</text>
+                    <text class="desc-list-item">支持辅修成绩查询</text>
+                </view>
+            </view>
+            <view class="describe">
+                <view class="desc-title">
+                    <text class="desc-v">v1.6</text>
+                    <text class="desc-time">2018.1.5</text>
+                </view>
+                <text class="desc-content">优化完善</text>
+                <view class="desc-list">
+                    <text class="desc-list-item">空教室数据更改为每小时更新</text>
+                    <text class="desc-list-item">修复考试安排和成绩查询失败问题</text>
+                </view>
+            </view>
+            <view class="describe">
+                <view class="desc-title">
+                    <text class="desc-v">v1.5.1</text>
+                    <text class="desc-time">2017.12.12</text>
+                </view>
+                <text class="desc-content">优化完善</text>
+                <view class="desc-list">
+                    <text class="desc-list-item">修复特定机型空教室查询无限加载的问题</text>
+                    <text class="desc-list-item">修复留学生学号无法输入的问题</text>
+                    <text class="desc-list-item">修复特定机型样式异常的问题</text>
+                </view>
+            </view>
             <view class="describe">
                 <view class="desc-title">
                     <text class="desc-v">v1.5</text>
-                    <text class="desc-time">2017.10.20</text>
+                    <text class="desc-time">2017.11.02</text>
                 </view>
                 <text class="desc-content">添加功能</text>
                 <view class="desc-list">
-                    <text class="desc-list-item">学生权益维护栏目</text>
+                    <text class="desc-list-item">添加考试成绩查询</text>
+                    <text class="desc-list-item">添加考试安排查询</text>
                 </view>
                 <text class="desc-content">优化完善</text>
                 <view class="desc-list">
@@ -102,10 +149,10 @@
         </view>
     </view>
     <view class="footer">
-        <view class="footer-lanshan">
-            <text>指导单位 共青团重庆大学委员会</text>
-            <image src="/images/more/ysh.png"></image>
-        </view>
+        <!--<view class="footer-lanshan">-->
+            <!--<text>指导单位 共青团重庆大学委员会</text>-->
+            <!--<image src="/images/more/ysh.png"></image>-->
+        <!--</view>-->
         <text>已有{{user_count}}位小伙伴在使用本小程序</text>
         <!--<text>♥ Do have faith in what you're doing.</text>-->
         <!--<text>Copyright @ {{year}} All Rights Reserved</text>-->

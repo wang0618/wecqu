@@ -69,8 +69,8 @@
                     <image class="card-item-icon" src="/images/core/kb.png"></image>
                     <text class="card-item-name">今日课表</text>
                 </view>
-                <view wx:if="{{card.kb.nothing}}" class="card-item-bd kb-nothing">
-                    <text>今天居然没有课~😆</text>
+                <view wx:if="{{card.kb.nothing_msg}}" class="card-item-bd kb-nothing">
+                    <text>{{card.kb.nothing_msg}}</text>
                 </view>
                 <view wx:else class="card-item-bd">
                     <view class="kb-item" wx:for="{{card.kb.data}}" wx:key="when">

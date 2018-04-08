@@ -7,8 +7,6 @@ Page({
         help_status: false,
         userid_focus: false,
         passwd_focus: false,
-        userid: '',
-        passwd: '',
         angle: 0
     },
     status: true,
@@ -67,13 +65,13 @@ Page({
             }
         });
     },
-    bind: function () {
+    bind: function (e) {
         var _this = this;
         if (!_this.status) {
             app.showErrorModal('未授权，请重新打开小程序对小程序进行授权', '无法绑定');
             return;
         }
-        if (!_this.data.userid || !_this.data.passwd) {
+        if (!e.detail.value.userid || !e.detail.value.passwd) {
             app.showErrorModal('账号及密码不能为空', '提醒');
             return false;
         }
@@ -86,10 +84,11 @@ Page({
                     url: app._server + '/api/user/new',
                     data: {
                         code: res.code,
-                        stuid: _this.data.userid,
-                        passwd: _this.data.passwd
+                        stuid: e.detail.value.userid,
+                        passwd: e.detail.value.passwd
                     },
                     success: function (res) {
+                        wx.hideLoading();
                         if (res.data && res.data.status === 200) {
                             //app.showLoadToast('请稍候');
                             app.saveCache('user', res.data.data.user);
@@ -132,6 +131,7 @@ Page({
                     fail: function (res) {
                         wx.hideToast();
                         app.showErrorModal(res.errMsg, '绑定失败');
+                        wx.hideLoading();
                     }
                 });
             }
@@ -139,17 +139,9 @@ Page({
 
 
     },
-    useridInput: function (e) {
+    focus_password:function () {
         this.setData({
-            userid: e.detail.value
-        });
-        if (e.detail.value.length >= 8) {
-            wx.hideKeyboard();
-        }
-    },
-    passwdInput: function (e) {
-        this.setData({
-            passwd: e.detail.value
+            'passwd_focus': true
         });
     },
     inputFocus: function (e) {

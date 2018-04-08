@@ -25,9 +25,9 @@ Page({
         var name = this.data.name || app.cache.user.name,
             id = this.data.id || app.cache.user.id;
         return {
-            title: name + '的考试安排',
+            title: '我的考试安排',
             desc: 'We重大 - 考试安排',
-            path: '/pages/core/ks/ks?id=' + id + '&name=' + name
+            path: '/pages/index/index'
         };
     },
     //下拉更新
@@ -53,32 +53,16 @@ Page({
     //让分享时自动登录
     loginHandler: function (options) {
         var _this = this;
-        var id, name;
-        if (options.id && options.name) {
-            id = options.id;
-            name = options.name;
-            _this.setData({
-                teacher: false
-            });
-        } else {
-            id = app.cache.user.id,
-                name = app.cache.user.name;
-        }
-        if (!id || !name) {
-            _this.setData({
-                remind: '未绑定'
-            });
-            return false;
-        }
         _this.setData({
-            id: id,
-            name: name
+            id: app.cache.user.id,
+            name: app.cache.user.name
         });
 
         //判断并读取缓存
-        if (app.cache.exam && !options.name) {
+        if (app.cache.exam) {
             ksRender(app.cache.exam);
         }
+
         function ksRender(list) {
             if (!list || !list.length) {
                 _this.setData({
@@ -90,21 +74,22 @@ Page({
             for (var i = 0, len = list.length; i < len; ++i) {
                 list[i].open = false;
                 list[i].index = i;
-                list[i].day = days[list[i].day - 1];
-                list[i].time = list[i].time.trim().replace('—', '~');
-                list[i].lesson = list[i].lesson.replace(',', '-');
                 //倒计时提醒
-                if (list[i].days > 0) {
-                    list[i].countdown = '还有' + list[i].days + '天考试';
-                    list[i].place = '（' + list[i].time + '）' + list[i].room;
-                    list[i].place += '#' + list[i].number;
-                } else if (list[i].days < 0) {
-                    list[i].countdown = '考试已过了' + (-list[i].days) + '天';
-                    list[i].place = '';
-                } else {
-                    list[i].countdown = '今天考试';
-                    list[i].place = '（' + list[i].time + '）' + list[i].room;
-                    list[i].place += '#' + list[i].number;
+                try {
+                    var nowTime = new Date().getTime();
+                    var oDate = list[i].date.split('-'),
+                        oTime = new Date(oDate[0], oDate[1] - 1, oDate[2]).getTime();
+                    var temp = (oTime - nowTime) / 1000 / 60 / 60 / 24;
+                    list[i].days = temp > 0 ? parseInt(temp + 1) : parseInt(temp);
+                    if (list[i].days > 0) {
+                        list[i].countdown = '还有' + list[i].days + '天考试';
+                    } else if (list[i].days < 0) {
+                        list[i].countdown = '考试已过了' + (-list[i].days) + '天';
+                    } else {
+                        list[i].countdown = '今天考试';
+                    }
+                } catch (e) {
+                    list[i].countdown = '';
                 }
             }
             list[0].open = true;
@@ -133,18 +118,37 @@ Page({
                     }
 
                 } else {
-                    _this.setData({
-                        remind: res.data.message || '未知错误'
-                    });
+                    if (res.data.code == 100) {
+                        wx.showModal({
+                            title: '加载数据失败',
+                            content: res.data.message || "数据获取失败,您的教务处密码在绑定小程序后可能进行了更改,请尝试更新密码",
+                            cancelText: '暂不更新',
+                            confirmText: '更新密码',
+                            success: function (res) {
+                                if (res.confirm) {
+                                    wx.redirectTo({
+                                        url: '/pages/more/append'
+                                    });
+                                }
+                            }
+                        });
+                    } else if (!app.cache.exam) {
+                        _this.setData({
+                            remind: res.data.message || '未知错误'
+                        });
+                    } else {
+                        app.toast(_this, "更新数据失败");
+                    }
                 }
             },
             fail: function (res) {
-                if (_this.data.remind == '加载中') {
+                if (!app.cache.exam) {
                     _this.setData({
-                        remind: '网络错误'
+                        remind: res.data.message || '未知错误'
                     });
+                } else {
+                    app.toast(_this, "更新数据失败");
                 }
-                console.warn('网络错误');
             },
             complete: function () {
                 wx.hideNavigationBarLoading();

@@ -7,7 +7,7 @@
   background-position: bottom center;
   /*background-image: url('/images/index/tri.png');*/
   /*微信暂不支持静态bgimg文件，改用服务器url*/
-  /*background-image: url('https://icqu.cquyibandev.com/app/images/index/tri.png');*/
+  /*background-image: url('https://wecqu.com/app/images/index/tri.png');*/
 }
 swiper {
     border-bottom: 1rpx solid #e5e5e5;
@@ -82,22 +82,22 @@ swiper .wx-swiper-dots.wx-swiper-dots-horizontal{
 .main-card-item#kb{
   /*background-image: url('/images/index/kb-bg.png');*/
   /*微信暂不支持静态bgimg文件，改用服务器url*/
-  background-image: url('https://icqu.cquyibandev.com/app/images/index/kb-bg.png');
+  background-image: url('https://wecqu.com/app/images/index/kb-bg.png');
 }
 .main-card-item#ykt{
   /*background-image: url('/images/index/ykt-bg.png');*/
   /*微信暂不支持静态bgimg文件，改用服务器url*/
-  background-image: url('https://icqu.cquyibandev.com/app/images/index/ykt-bg.png');
+  background-image: url('https://wecqu.com/app/images/index/ykt-bg.png');
 }
 .main-card-item#jy{
   /*background-image: url('/images/index/jy-bg.png');*/
   /*微信暂不支持静态bgimg文件，改用服务器url*/
-  background-image: url('https://icqu.cquyibandev.com/app/images/index/jy-bg.png');
+  background-image: url('https://wecqu.com/app/images/index/jy-bg.png');
 }
 .main-card-item#sdf{
   /*background-image: url('/images/index/sdf-bg.png');*/
   /*微信暂不支持静态bgimg文件，改用服务器url*/
-  background-image: url('https://icqu.cquyibandev.com/app/images/index/sdf-bg.png');
+  background-image: url('https://wecqu.com/app/images/index/sdf-bg.png');
 }
 .main-card-item navigator{
   display: flex;
@@ -194,7 +194,8 @@ page .navigator-hover{
 .kb-nothing{
   align-items: center;
   justify-content: center;
-  font-size: 11pt;
+  font-size: 14pt;
+  color: #999;
   min-height: 150rpx;
 }
 .kb-open{
@@ -312,7 +313,7 @@ page .navigator-hover{
   height: 231rpx;
   /*background-image: url('/images/index/jy-book.png');*/
   /*微信暂不支持静态bgimg文件，改用服务器url*/
-  background-image: url('https://icqu.cquyibandev.com/app/images/index/jy-book.png');
+  background-image: url('https://wecqu.com/app/images/index/jy-book.png');
   background-size: 100% 100%;
   padding: 5rpx 5rpx 50rpx 30rpx;
   color: #fff;

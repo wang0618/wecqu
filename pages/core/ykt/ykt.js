@@ -38,7 +38,19 @@ Page({
             });
         }, 1000);
     },
-    onLoad: function () {
+    onLoad:function () {
+        var _this = this;
+        app.loginLoad(function () {
+            _this.onLoadAfterLogin.call(_this);
+        }, function () {
+            wx.showModal({
+                title: '错误',
+                content: '网络连接出错',
+                showCancel: false
+            });
+        });
+    },
+    onLoadAfterLogin: function () {
         var _this = this;
         wx.getSystemInfo({
             success: function (res) {

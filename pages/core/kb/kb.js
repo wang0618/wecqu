@@ -5,7 +5,7 @@ Page({
     data: {
         remind: '加载中',
         _days: ['一', '二', '三', '四', '五', '六', '日'],
-        _weeks: ['第一周', '第二周', '第三周', '第四周', '第五周', '第六周', '第七周', '第八周', '第九周', '第十周', '十一周', '十二周', '十三周', '十四周', '十五周', '十六周', '十七周', '十八周', '十九周', '二十周'],
+        _weeks: ['第一周', '第二周', '第三周', '第四周', '第五周', '第六周', '第七周', '第八周', '第九周', '第十周', '十一周', '十二周', '十三周', '十四周', '十五周', '十六周', '十七周', '十八周', '十九周', '二十周', '二十一周', '二十二周', '二十三周', '二十四周', '二十五周'],
 
         timelineTop: 0,
         scroll: {
@@ -24,7 +24,8 @@ Page({
         week: 1,    //视图周数（'*'表示学期视图）
         lessons: [],  //课程data
         dates: [],     //本周日期
-        teacher: false   //是否为教师课表
+        teacher: false,   //是否为教师课表
+        in_holiday: false
     },
     _time: [ //课程时间
         [//老校区
@@ -98,7 +99,7 @@ Page({
     loginHandler: function (options) {
         var _this = this;
         _this.setData({
-            'term': app.cache.term.term
+            'term': app.cache.term.name
         });
         // onLoad时获取一次课表
         var id = options.id || app.cache.user.id;
@@ -109,6 +110,8 @@ Page({
         }
         if (app.cache.class_table) {
             _this.set_kb(app.cache.class_table);
+        } else { // 没有课表缓存,获取课表
+            _this.request_classtable();
         }
     },
     onShow: function () {
@@ -123,9 +126,11 @@ Page({
             return parseMinute(dateStr1) <= parseMinute(dateStr2);
         }
 
+        var term_info = app.util.get_week(app.cache.class_table.start_stamp);
+        var in_holiday = (term_info.now < app.cache.class_table.start_stamp || term_info.now > app.cache.class_table.end_stamp);
         var nowTime = app.util.formatTime(new Date(), 'h:m');
         var pos = _this.cursor_pos;
-        if (app.cache.user && app.cache.user.dormitory && app.cache.user.dormitory[0] != 0) { //用户设置了校区信息
+        if (app.cache.user && app.cache.user.dormitory && app.cache.user.dormitory[0] != 0 && !in_holiday) { //用户设置了校区信息并且不在假期
             var index = app.cache.user.dormitory[0] <= 3 ? 0 : 1;
             _this._time[index].forEach(function (e, i) {
                 if (compareDate(e.begin, nowTime) && compareDate(nowTime, e.end)) {
@@ -135,12 +140,6 @@ Page({
                 }
             });
         }
-
-        //设置滚动至当前时间附近，如果周末为设置left为其最大值102
-        var nowWeek = new Date().getDay();
-        _this.setData({
-            'scroll.left': (nowWeek === 6 || nowWeek === 0) ? 102 : 0
-        });
     },
     onReady: function () {
         var _this = this;
@@ -150,6 +149,64 @@ Page({
                 title: _this.data.name + '的课表'
             });
         }
+    },
+    request_classtable: function () {
+        //获取课表
+        var _this = this;
+        wx.showLoading({
+            title: '更新中',
+            mask: true
+        });
+        wx.showNavigationBarLoading();
+        wx.request({
+            url: app._server + app.api.get_classtable,
+            method: 'POST',
+            data: app.key({}),
+            success: function (res) {
+                wx.hideLoading();
+                if (res.data && res.data.status === 200) {
+                    var _data = res.data.data;
+                    if (_data) {
+                        app.saveCache('class_table', _data);
+                        _this.set_kb(_data);
+                        wx.showToast({
+                            title: '更新课表成功',
+                            icon: 'success',
+                            duration: 1000
+                        });
+                        //用户返回主页时重新显示课表数据
+                        app.index_show_callback.push(['kbRender', function (that) {
+                            that.kbRender.call(that, _data);
+                        }]);
+                    } else {
+                        _this.setData({remind: '暂无数据'});
+                    }
+                } else {
+                    //app.removeCache('class_table');
+                    if (!app.cache.class_table) {
+                        _this.setData({
+                            remind: res.data.message || '获取数据失败'
+                        });
+                    } else {
+                        app.showErrorModal('错误', res.data.message || '更新数据失败');
+                    }
+                }
+            },
+            fail: function (res) {
+                wx.hideLoading();
+
+                if (!app.cache.class_table) {
+                    _this.setData({
+                        remind: '网络错误'
+                    });
+                } else {
+                    app.showErrorModal('网络错误', '更新失败');
+                }
+            },
+            complete: function () {
+                wx.hideNavigationBarLoading();
+            }
+        });
     },
     update_classtable: function () {
         var _this = this;
@@ -161,61 +218,7 @@ Page({
                 if (!res.confirm) {
                     return;
                 }
-                wx.showLoading({
-                    title: '更新中',
-                    mask: true
-                });
-                wx.showNavigationBarLoading();
-                //获取课表
-                wx.request({
-                    url: app._server + app.api.get_classtable,
-                    method: 'POST',
-                    data: app.key({}),
-                    success: function (res) {
-                        wx.hideLoading();
-                        if (res.data && res.data.status === 200) {
-                            var _data = res.data.data;
-                            if (_data) {
-                                app.saveCache('class_table', _data);
-                                _this.set_kb(_data);
-                                wx.showToast({
-                                    title: '更新课表成功',
-                                    icon: 'success',
-                                    duration: 1000
-                                });
-                                //用户返回主页时重新显示课表数据
-                                app.index_show_callback.push(['kbRender', function (that) {
-                                    that.kbRender.call(that, _data);
-                                }]);
-                            } else {
-                                _this.setData({remind: '暂无数据'});
-                            }
-                        } else {
-                            //app.removeCache('class_table');
-                            if (!app.cache.class_table) {
-                                _this.setData({
-                                    remind: res.data.message || '未知错误'
-                                });
-                            } else {
-                                app.showErrorModal('网络错误', '更新失败');
-                            }
-                        }
-                    },
-                    fail: function (res) {
-                        wx.hideLoading();
-
-                        if (!app.cache.class_table) {
-                            _this.setData({
-                                remind: '网络错误'
-                            });
-                        } else {
-                            app.showErrorModal('网络错误', '更新失败');
-                        }
-                    },
-                    complete: function () {
-                        wx.hideNavigationBarLoading();
-                    }
-                });
+                _this.request_classtable();
             }
         });
 
@@ -225,9 +228,23 @@ Page({
         var _this = this;
         var week = _this.data.week;
         var dataset = e.currentTarget.dataset;
-        var lessons = _this.data.lessons[dataset.day][dataset.wid];
+        // console.log(dataset,e.currentTarget);return;
+        var lessons = [];
         var targetI = 0;
-        lessons[dataset.cid].target = true;
+
+        if(dataset.cid == undefined){ //点击了空白处或者卡片overflow的地方
+            for(var t=0;t<dataset.wid;t++){
+                lessons = lessons.concat(_this.data.lessons[dataset.day][t].filter(function (e) {
+                    var res = (e.number/2 + t - 1)>=dataset.wid;
+                    if(res)
+                        dataset.wid = t;
+                    return res;
+                }));
+            }
+        }else {
+            lessons = _this.data.lessons[dataset.day][dataset.wid];
+            lessons[dataset.cid].target = true;
+        }
         if (week != '*') {
             lessons = lessons.filter(function (e) {
                 return e.weeks.indexOf(parseInt(week)) !== -1;
@@ -418,18 +435,29 @@ Page({
                 }
             }
             var week_info = app.util.get_week(_data.start_stamp);
-            var today = week_info.day;  //0周一,1周二...6周日
             var week = week_info.week;
+            var today = week_info.day;  //0周一,1周二...6周日
+            var in_holiday = false;
+            var nowWeek = new Date().getDay();
+            //设置滚动至当前时间附近，如果周末为设置left为其最大值102
+            var scroll_left = (nowWeek === 6 || nowWeek === 0) ? 102 : 0;
+
+            if (week_info.now < _data.start_stamp || week_info.now > _data.end_stamp) {
+                //假期中
+                week = 1;
+                today = 0;
+                scroll_left = 0;
+                in_holiday = true;
+            }
+
             var lessons = _data.lessons;
             //各周日期计算
-            var nowD = new Date(),
-                nowMonth = nowD.getMonth() + 1,
-                nowDate = nowD.getDate();
+            var startDate = new Date(_data.start_stamp*1000);
             var dates = _this.data._weeks.slice(0);  //0:第1周,1:第2周,..19:第20周
             dates = dates.map(function (e, m) {
                 var idates = _this.data._days.slice(0);  //0:周一,1:周二,..6:周日
                 idates = idates.map(function (e, i) {
-                    var d = (m === (week - 1) && i === today) ? nowD : new Date(nowD.getFullYear(), nowD.getMonth(), nowD.getDate() - ((week - 1 - m) * 7 + (today - i)));
+                    var d = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + m*7+i);
                     return {
                         month: d.getMonth() + 1,
                         date: d.getDate()
@@ -437,12 +465,17 @@ Page({
                 });
                 return idates;
             });
+
+
+
             _this.setData({
                 today: today,
                 week: week,
                 toweek: week,
                 lessons: lessons,
                 dates: dates,
+                'scroll.left': scroll_left,
+                in_holiday: in_holiday,
                 remind: ''
             });
         }
