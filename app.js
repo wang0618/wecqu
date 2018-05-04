@@ -1,14 +1,13 @@
 //app.js
 
 App({
-    version: 'v1.6.1', //版本号
-    version_id: 17,
+    version: 'v1.7', //版本号
+    version_id: 18,
     launch_option: null,
     on_upgrade_to_this:function () {
         /*用户更新到此版本第一次打开时调用的函数*/
         var _this = this;
-        wx.clearStorageSync();
-        _this.cache = {};
+        _this.removeCache('class_table');
     },
     on_change_term:function (new_term) {
         /*当后台学期更新时调用的函数*/
@@ -127,9 +126,10 @@ App({
                                 }
                                 for (var key in data) {
                                     var value = data[key];
-                                    // console.log(key, value);
                                     _this.saveCache(key, value);
                                 }
+                                // 保存当前session的获取时间，用于计算session是否过期
+                                _this.saveCache('session_timestamp', parseInt(new Date().getTime().toString().substr(0, 10)));
                                 typeof success == "function" && success(true);
                             } else {
                                 typeof fail == "function" && fail(res.data.message);
@@ -223,7 +223,9 @@ App({
     },
     index_show_callback: [],// key,fun(this),回到主页时要调用的回调函数列表
     cache: {},
+
     _server: 'https://wecqu.com',
+    _session_expire_sec: 60*500, // session 本地过期时间
     api: {
         get_classtable: '/api/classtable',
         get_cardcost: '/api/card',

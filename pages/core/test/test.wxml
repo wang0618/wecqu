@@ -1,4 +1,0 @@
-<!--xf.wxml-->
-<view class="container">
-    <web-view src="https://wecqu.com/test/t.html" bindmessage="on_msg"></web-view>
-</view>

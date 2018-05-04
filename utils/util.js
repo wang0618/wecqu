@@ -40,26 +40,27 @@ function cloneObj(obj) {
 }
 
 //md5&base64
-var md5 = require('md5.min.js'), base64 = require('base64.min.js'),
-    key = function (data) {
-        if (!isPlainObject(data)) {
-            return false;
-        }
-        var app = getApp();
-        data['v'] = app.version_id;
-        var json_data = JSON.stringify(data);
-        var timestamp = parseInt(new Date().getTime().toString().substr(0, 10));
+var md5 = require('md5.min.js');
+var key = function (data) {
+    if (!isPlainObject(data)) {
+        return false;
+    }
+    var app = getApp();
+    data['v'] = app.version_id;
+    var json_data = JSON.stringify(data);
+    var timestamp = parseInt(new Date().getTime().toString().substr(0, 10));
 
-        var sign = '';
-        try {
-            sign = md5(json_data + timestamp + app.cache.session).substr(0, 10) + app.cache.user.id;
-        } catch (e) {}
-        return {
-            timestamp: timestamp,
-            sign: sign,
-            data: json_data
-        };
+    var sign = '';
+    try {
+        sign = md5(json_data + timestamp + app.cache.session).substr(0, 10) + app.cache.user.id;
+    } catch (e) {
+    }
+    return {
+        timestamp: timestamp,
+        sign: sign,
+        data: json_data
     };
+};
 
 function isEmptyObject(obj) {
     for (var key in obj) {
@@ -73,7 +74,7 @@ function get_week(start_stamp) {
     var now = parseInt(new Date().getTime().toString().substr(0, 10));
     var intval = (now - start_stamp) / 86400;
     return {
-        now:now,
+        now: now,
         week: parseInt(intval / 7) + 1,
         day: parseInt(intval % 7)
     }
@@ -82,7 +83,6 @@ function get_week(start_stamp) {
 module.exports = {
     formatTime: formatTime,
     md5: md5,
-    base64: base64,
     key: key,
     isEmptyObject: isEmptyObject,
     get_week: get_week

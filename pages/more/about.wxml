@@ -33,18 +33,20 @@
             </view>
         </view>
         <view class="log-list" wx:else>
-            <!--新版本 后台 helpers/web.py:27 解注释-->
-            <!--<view class="describe">
+            <view class="describe">
                 <view class="desc-title">
-                    <text class="desc-v">v1.7</text>
-                    <text class="desc-time">2018.2.24</text>
+                    <text class="desc-v">v1.7</text><!--18-->
+                    <text class="desc-time">2018.4.30</text>
+                </view>
+                <text class="desc-content">添加功能</text>
+                <view class="desc-list">
+                    <text class="desc-list-item">添加“消息中心”，用于展示We重大的新功能和开发计划，反馈信息的回复也将显示在此</text>
                 </view>
                 <text class="desc-content">优化完善</text>
                 <view class="desc-list">
-                    <text class="desc-list-item">空教室查询支持多时段同时查询</text>
-                    <text class="desc-list-item">支持辅修成绩查询</text>
+                    <text class="desc-list-item">课表数据包含实验课课表</text>
                 </view>
-            </view>-->
+            </view>
             <view class="describe">
                 <view class="desc-title">
                     <text class="desc-v">v1.6.1</text>

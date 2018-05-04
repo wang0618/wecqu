@@ -18,6 +18,7 @@ Page({
             {id: 'xf', name: '学费信息', disabled: true, offline_disabled: true},
             {id: 'more', name: 'more', disabled: true, offline_disabled: true}
         ],
+        swiper_index: 0,
         swiper_core: [
             [
                 {id: 'kb', name: '课表', url: "/pages/core/kb/kb", disabled: false, offline_disabled: false},
@@ -27,10 +28,8 @@ Page({
                 {id: 'bus', name: '校车时刻', url: "/pages/core/bus/bus", disabled: false, offline_disabled: false},
             ], [
                 {id: 'ykt', name: '一卡通', url: "/pages/core/ykt/ykt", disabled: false, offline_disabled: false},
-                // {id: 'more', name: '权益维护', url: "/pages/bbs/index/index", disabled: false, offline_disabled: true},
                 {id: 'jy', name: '借阅信息', url: "/pages/core/jy/jy", disabled: false, offline_disabled: false},
                 {id: 'sdf', name: '寝室电费', url: "/pages/core/sdf/sdf", disabled: false, offline_disabled: false},
-                // {id: 'explore', name: '探索', url: "/pages/core/explore/explore", disabled: false, offline_disabled: true},
             ]
         ],
         card: {
@@ -155,9 +154,12 @@ Page({
                 'remind': '未绑定'
             });
         });
+
+
     },
     onShow: function () {
-        /*当用户在其他页面修改了用户信息时，再次返回首页时，要进行首页信息的更新
+        /* 1. 当用户在其他页面修改了用户信息时，再次返回首页时，要进行首页信息的更新
+           2. 每次显示首页的时候判断本地session有没有过期，过期则重新获取
         * */
         var _this = this;
         var count = {};
@@ -172,13 +174,28 @@ Page({
             }
         }
         app.index_show_callback = [];
+
+        var t = parseInt(new Date().getTime().toString().substr(0, 10));
+        if (t - app.cache.session_timestamp > app._session_expire_sec) {
+            console.log('reauth');
+            app.authUser();
+        }
+
+        /*重新判断是否有通知，
+        * this.user_auth_callback 函数中虽然进行了一次判断，但那是在小程序启动后进行的判断，
+        * 用户启动小程序后，可能长时间小程序一直在后台，应该在重新获取session信息后再次判断是后台否有通知
+        * */
+        if (app.cache.notification_count > 0)
+            _this.show_notification_animation();
     },
     /*
     * request_ctrl 用于控制是否重新获取一卡通，电费，借阅的数据
     * */
     user_auth_callback: function (status, error_msg, request_ctrl) {
         var _this = this;
-
+        //如果有未读消息，则播放通知动画
+        if (app.cache.notification_count > 0)
+            _this.show_notification_animation();
         //认证成功后, 用户信息就写入缓存了
         _this.setData({
             'user.is_bind': true,
@@ -245,7 +262,28 @@ Page({
     tap_disabled_item: function () {
         this.toast('该服务暂时不可用');
     },
-
+    open_notification_center: function () {
+        var _this = this;
+        wx.navigateTo({
+            url: '/pages/core/notification/notification',
+            success:function () {
+                _this.setData({has_new_notification: false}); // 不显示小红点
+            }
+        });
+    },
+    show_notification_animation: function () {
+        app.saveCache('notification_count', 0);
+        this.setData({
+            swiper_index: 1,
+            has_new_notification:true
+        }); // 切换到第二页
+        setTimeout(function () {
+            this.setData({shake_notification_icon: true});
+        }.bind(this), 700);
+        setTimeout(function () {
+            this.setData({shake_notification_icon: false});
+        }.bind(this), 1800);
+    },
     kbRender: function (info) {
         try {
             var _this = this;

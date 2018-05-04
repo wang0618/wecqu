@@ -232,16 +232,16 @@ Page({
         var lessons = [];
         var targetI = 0;
 
-        if(dataset.cid == undefined){ //点击了空白处或者卡片overflow的地方
-            for(var t=0;t<dataset.wid;t++){
+        if (dataset.cid == undefined) { //点击了空白处或者卡片overflow的地方
+            for (var t = 0; t < dataset.wid; t++) {
                 lessons = lessons.concat(_this.data.lessons[dataset.day][t].filter(function (e) {
-                    var res = (e.number/2 + t - 1)>=dataset.wid;
-                    if(res)
+                    var res = (e.number / 2 + t - 1) >= dataset.wid;
+                    if (res)
                         dataset.wid = t;
                     return res;
                 }));
             }
-        }else {
+        } else {
             lessons = _this.data.lessons[dataset.day][dataset.wid];
             lessons[dataset.cid].target = true;
         }
@@ -412,7 +412,8 @@ Page({
             for (i = 0, ilen = _lessons.length; i < ilen; i++) {
                 for (j = 0, jlen = _lessons[i].length; j < jlen; j++) {
                     for (k = 0, klen = _lessons[i][j].length; k < klen; k++) {
-                        if (_lessons[i][j][k] && _lessons[i][j][k].class_id) {
+                        // if (_lessons[i][j][k] && _lessons[i][j][k].class_id) {
+                        if (_lessons[i][j][k]) {
                             // 找出冲突周数,及课程数
                             var conflictWeeks = {};
                             _lessons[i][j][k].weeks.forEach(function (e) {
@@ -452,12 +453,12 @@ Page({
 
             var lessons = _data.lessons;
             //各周日期计算
-            var startDate = new Date(_data.start_stamp*1000);
+            var startDate = new Date(_data.start_stamp * 1000);
             var dates = _this.data._weeks.slice(0);  //0:第1周,1:第2周,..19:第20周
             dates = dates.map(function (e, m) {
                 var idates = _this.data._days.slice(0);  //0:周一,1:周二,..6:周日
                 idates = idates.map(function (e, i) {
-                    var d = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + m*7+i);
+                    var d = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + m * 7 + i);
                     return {
                         month: d.getMonth() + 1,
                         date: d.getDate()
@@ -465,7 +466,6 @@ Page({
                 });
                 return idates;
             });
-
 
 
             _this.setData({

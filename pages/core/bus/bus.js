@@ -45,7 +45,7 @@ Page({
         var _this = this;
         var d = new Date();
         var now_minutes = d.getHours() * 60 + d.getMinutes();
-        console.log('now minute',now_minutes);
+        // console.log('now minute',now_minutes);
         var active;
         if (now_minutes<_this.data.timetable[0].max)
             active = 0;

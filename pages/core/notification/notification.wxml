@@ -1,0 +1,7 @@
+<!--xf.wxml-->
+<view class="container">
+    <web-view  wx:if="{{src}}" src="{{src}}"></web-view>
+    <view wx:else class="remind-box">
+        <image class="remind-img" src="/images/index/loading.gif"></image>
+    </view>
+</view>

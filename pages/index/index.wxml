@@ -20,7 +20,7 @@
         </block>
     </view>-->
 
-    <swiper indicator-dots indicator-active-color="#7acfa6">
+    <swiper indicator-dots indicator-active-color="#7acfa6" current="{{swiper_index}}">
         <swiper-item>
             <block wx:for="{{swiper_core[0]}}" wx:key="id">
                 <navigator wx:if="{{user.is_bind && !item.disabled && (!offline || !item.offline_disabled) }}"
@@ -46,6 +46,10 @@
                     <text class="core-item-name">{{item.name}}</text>
                 </view>
             </block>
+            <view class="main-core-item {{shake_notification_icon?'shake shake-rotate shake-constant':''}}" bindtap="open_notification_center">
+                <image class="core-item-icon" src="/images/core/notification{{has_new_notification?'@new':''}}.png"></image>
+                <text class="core-item-name">消息</text>
+            </view>
         </swiper-item>
     </swiper>
 

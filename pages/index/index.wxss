@@ -1,4 +1,6 @@
 /**index.wxss**/
+@import '../../style/csshake.min.wxss';
+
 .container{
   padding-bottom: 0;
   background-color: #f0eff5;
